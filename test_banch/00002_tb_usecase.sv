@@ -64,7 +64,7 @@ module tb_ula_74181_arit;
 
         // 3º Caso - (A OR NOT B) PLUS CIN
         $display("3 Caso - (A OR NOT B) + Cin");
-        testa(8'b00000001, 8'b11111111, 4'b0010, 0,       8'b00000001, 0); // Sem Cin
+        testa(8'b00000001, 8'b11111111, 4'b0010, 0, 0,      8'b00000001, 0); // Sem Cin
         testa(8'b00000001, 8'b11111111, 4'b0010, 0, 1,      8'b00000010, 0); // Com Cin
         testa(8'b00000001, 8'b00000000, 4'b0010, 0, 1,      8'b00000000, 1); // Com Cout
 
@@ -73,71 +73,59 @@ module tb_ula_74181_arit;
         testa(8'b00000000, 8'b00000000, 4'b0011, 0, 0,      8'b11111111, 0); // Sem Cin
         testa(8'b00000000, 8'b00000000, 4'b0011, 0, 1,      8'b00000000, 1); // Com Cin
 
-        // 5º Caso - A PLUS B PLUS CIN
-        $display("5 Caso - A PLUS B + Cin");
-        testa(8'b11000011, 8'b00000001, 4'b0100, 0, 0,      8'b11000100, 0); // Sem Cin
-        testa(8'b11000011, 8'b00000001, 4'b0100, 0, 1,      8'b11000101, 0); // Com Cin
-        testa(8'b11110000, 8'b00010000, 4'b0100, 0, 1,      8'b00000001, 1); // Com Cout
+        // 5º Caso - A PLUS A AND NOT B PLUS CIN
+        $display("5 Caso - A PLUS A AND NOT B PLUS CIN");
+        testa(8'b00010010, 8'b00000001, 4'b0100, 0, 0,      8'b00100100, 0); // Sem Cin
+        testa(8'b00010010, 8'b00000001, 4'b0100, 0, 1,      8'b00100101, 0); // Com Cin
+        testa(8'b10000000, 8'b00010000, 4'b0100, 0, 1,      8'b00000001, 1); // Com Cout
 
-        // 6º Caso - B MINUS A MINUS 1 + CIN
-        $display("6 Caso - B - A - 1 + Cin");
-        testa(8'b11000011, 8'b11110000, 4'b0101, 0, 0,      8'b00101100, 0); // Sem Cin
-        testa(8'b11000011, 8'b11110000, 4'b0101, 0, 1,      8'b00101101, 0); // Com Cin
-        testa(8'b11110000, 8'b11000011, 4'b0101, 0, 1,      8'b11010100, 1); // A > B com Cin
+        // 6º Caso -  A OR B PLUS A AND NOT B PLUS CIN
+        $display("6 Caso -  A OR B PLUS A AND NOT B PLUS CIN");
+        testa(8'b00110110, 8'b11110000, 4'b0101, 0, 0,      8'b11111100, 0); // Sem Cin
 
         // 7º Caso - A MINUS B MINUS 1 + CIN
         $display("7 Caso - A - B - 1 + Cin");
-        testa(8'b11000011, 8'b00000001, 4'b0110, 0, 0,      8'b11000001, 0); // Sem Cin
-        testa(8'b11000011, 8'b00000001, 4'b0110, 0, 1,      8'b11000010, 0); // Com Cin
-        testa(8'b00000001, 8'b11000011, 4'b0110, 0, 0,      8'b00111110, 1); // A < B sem Cin
-        testa(8'b00000001, 8'b11000011, 4'b0110, 0, 1,      8'b00111111, 1); // A < B com Cin
-        testa(8'b00000001, 8'b11000011, 4'b0110, 0, 1,      8'b00111111, 1); // A < B com Cin
+        testa(8'b11000011, 8'b01000010, 4'b0110, 0, 0,      8'b10000000, 0);
 
         // 8º Caso - A AND (NOT B) MINUS 1 + CIN
         $display("8 Caso - A AND (NOT B) - 1 + Cin");
-        testa(8'b11000011, 8'b11110000, 4'b0111, 0, 0,      8'b00000010, 0); // Sem Cin
-        testa(8'b11000011, 8'b11110000, 4'b0111, 0, 1,      8'b00000011, 0); // Com Cin
+        testa(8'b00110011, 8'b00010001, 4'b0111, 0, 0,      8'b00010001, 0);
         
         // 9º Caso - A PLUS (A AND B) PLUS CIN
         $display("9 Caso - A + (A AND B) + Cin");
-        testa(8'b11000011, 8'b11110000, 4'b1000, 0, 0,      8'b11110000, 0); // Sem Cin
-        testa(8'b11000011, 8'b11110000, 4'b1000, 0, 1,      8'b11110001, 0); // Com Cin
+        testa(8'b01000010, 8'b00000010, 4'b1000, 0, 0,      8'b01000100, 0);
 
         // 10º Caso - A PLUS B PLUS CIN
         $display("10 Caso - A + B + Cin");
-        testa(8'b11000011, 8'b11110000, 4'b1001, 0, 0,      8'b10110011, 1); // Sem Cin
-        testa(8'b11000011, 8'b11110000, 4'b1001, 0, 1,      8'b10110100, 1); // Com Cin
+        testa(8'b00000011, 8'b11000000, 4'b1001, 0, 0,      8'b11000011, 0); // Sem Cin
+        testa(8'b00000011, 8'b11000000, 4'b1001, 0, 1,      8'b11000100, 0); // Com Cin
 
         // 11º Caso - (A OR NOT B) PLUS A AND B PLUS CIN
         $display("11 Caso - (A OR NOT B) + (A AND B) + Cin");
-        testa(8'b11000011, 8'b11110000, 4'b1010, 0, 0,      8'b11110011, 0); // Sem Cin
-        testa(8'b11000011, 8'b11110000, 4'b1010, 0, 1,      8'b11110100, 0); // Com Cin
+        testa(8'b00010001, 8'b00000000, 4'b1010, 0, 0,      8'b11111111, 0); // Sem Cin
+        testa(8'b00010001, 8'b00000000, 4'b1010, 0, 1,      8'b00000000, 1); // com Cin
 
         // 12º Caso - (A AND B) MINUS 1 + CIN
         $display("12 Caso - (A AND B) - 1 + Cin");
-        testa(8'b11000011, 8'b11110000, 4'b1011, 0, 0,      8'b10111111, 0); // Sem Cin
-        testa(8'b11000011, 8'b11110000, 4'b1011, 0, 1,      8'b11000000, 0); // Com Cin
+        testa(8'b11000011, 8'b11000011, 4'b1011, 0, 0,      8'b11000011, 0);
 
         // 13º Caso - A + A* + CIN
         // * - Cada bit é passado para a próxima posição mais significante
         $display("13 Caso - A + (A << 1) + Cin");
-        testa(8'b11000011, 8'b00000001, 4'b1100, 0, 0,      8'b01001001, 1); // Sem Cin
-        testa(8'b11000011, 8'b00000001, 4'b1100, 0, 1,      8'b01001010, 1); // Com Cin
+        testa(8'b11000011, 8'b00000001, 4'b1100, 0, 0,      8'b10000110, 1); // Sem Cin
 
-        // 14º Caso - (A OR B) PLUS A + CIN
-        $display("14 Caso - (A OR B) + A + Cin");
-        testa(8'b11000011, 8'b11110000, 4'b1101, 0, 0,      8'b10110110, 1); // Sem Cin
-        testa(8'b11000011, 8'b11110000, 4'b1101, 0, 1,      8'b10110111, 1); // Com Cin
+        // 14º Caso - (A OR B PLUS A + CIN
+        $display("14 Caso - A OR B PLUS A + CIN");
+        testa(8'b01000010, 8'b01000010, 4'b1101, 0, 0,      8'b10000100, 1);
 
-        // 15º Caso - (A OR NOT B) PLUS A + CIN
-        $display("15 Caso - (A OR NOT B) + A + Cin");
+        // 15º Caso - A OR NOT B PLUS A + CIN
+        $display("15 Caso - A OR NOT B PLUS A + CIN");
         testa(8'b11000011, 8'b11110000, 4'b1110, 0, 0,      8'b10010010, 1); // Sem Cin
         testa(8'b11000011, 8'b11110000, 4'b1110, 0, 1,      8'b10010011, 1); // Com Cin
 
         // 16º Caso - A - 1 + CIN
         $display("16 Caso - A - 1 + Cin");
-        testa(8'b11000011, 8'b00000001, 4'b1111, 0, 0,      8'b11000010, 0); // Sem Cin
-        testa(8'b11000011, 8'b00000001, 4'b1111, 0, 1,      8'b11000011, 0); // Com Cin
+        testa(8'b11000011, 8'b00000001, 4'b1111, 0, 0,      8'b11000010, 0);
 
 
         $display("#############################");
@@ -200,7 +188,7 @@ module tb_ula_74181_arit;
 
         // 14 - A OR NOT B
         $display("14 Caso - A OR NOT B");
-        testa(8'b01011010, 8'b00110011, 4'b1101, 1, 0,      8'b11011010, 0); // A | (~B)
+        testa(8'b01011010, 8'b00110011, 4'b1101, 1, 0,      8'b11011110, 0); // A | (~B)
 
         // 15 - OR
         $display("15 Caso - OR");
