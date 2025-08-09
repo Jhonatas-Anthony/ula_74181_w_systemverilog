@@ -26,8 +26,9 @@ module tb_ula_8bits;
         // $display("-----------------------------------------------------------------------------------------------");
 
         m = 0; // modo aritmético
-        for (int ss = 0; ss < 16; ss++) begin
-            s = ss[3:0];
+        /* for (int ss = 0; ss < 16; ss++) begin
+            s = ss[3:0]; */
+            s=4'b0110;
 
             for (int aa = 0; aa < 256; aa += 51) begin  // passo maior p/ menos linhas
                 for (int bb = 0; bb < 256; bb += 85) begin
@@ -39,11 +40,10 @@ module tb_ula_8bits;
                         $display(" m |   s  |  abin  adec  |  bbin  bdec  | cin |  fbin  fdec  | cout | a_eq_b");
                         $display(" %1b | %04b | %08b %3d | %08b %3d |  %1b  | %08b %3d |  %1b   |   %1b",
                                  m, s, a, a, b, b, c_in, f, f, c_out, a_eq_b);
-
                     end
                 end
             end
-        end
+        /* end */
 
         $finish;
     end

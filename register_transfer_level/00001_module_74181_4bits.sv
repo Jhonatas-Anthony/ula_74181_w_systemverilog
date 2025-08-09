@@ -37,52 +37,52 @@ module module_ula_74181 (
         // === OPERAÇÕES LÓGICAS === //
         // Executadas quando m = 1 (modo lógico)
         case (s)
-            // NOT A
+            // 1 - NOT A
             4'b0000:
                 logic_f = ~a;
-            // NOR
+            // 2 - NOR
             4'b0001:
                 logic_f = ~(a | b);
-            // NOT A AND B
+            // 3 - NOT A AND B
             4'b0010:
                 logic_f = ~a & b;
-            // ZERO
+            // 4 - ZERO
             4'b0011:
                 logic_f = 4'b0000;
-            // NAND
+            // 5 - NAND
             4'b0100:
                 logic_f = ~(a & b);
-            // NOT B
+            // 6 - NOT B
             4'b0101:
                 logic_f = ~b;
-            // XOR
+            // 7 - XOR
             4'b0110:
                 logic_f = a ^ b;
-            // A AND NOT B
+            // 8 - A AND NOT B
             4'b0111:
                 logic_f = a & ~b;
-            // NOT A OR B
+            // 9 - NOT A OR B
             4'b1000:
                 logic_f = ~a | b;
-            //XNOR
+            // 10 - XNOR
             4'b1001:
                 logic_f = ~(a ^ b);
-            // B
+            // 11 - B
             4'b1010:
                 logic_f = b;
-            // AND
+            // 12 - AND
             4'b1011:
                 logic_f = a & b;
-            // TODOS OS BITS IGUAIS - VALOR MÁXIMO
+            // 13 - TODOS OS BITS IGUAIS - VALOR MÁXIMO
             4'b1100:
                 logic_f = 4'b1111;
-            // A OR NOT B
+            // 14 - A OR NOT B
             4'b1101:
                 logic_f = a | ~b;
-            // OR
+            // 15 - OR
             4'b1110:
                 logic_f = a | b;
-            // A
+            // 16 - A
             4'b1111:
                 logic_f = a;
         endcase
@@ -91,57 +91,58 @@ module module_ula_74181 (
         // Executadas quando m = 0 (modo aritmético)
         // Os operandos são estendidos para 5 bits para acomodar o carry-out
         case (s)
-            // A + Cin
+            // 1 - A PLUS CIN
             4'b0000:
                 arith_f = a + c_in;
-            // (A OR B) + Cin
+            // 2 - (A OR B) PLUS CIN
             4'b0001:
-                arith_f = (a | b) + c_in;
-            // (A OR NOT B) + Cin
+                arith_f = {1'b0, a | b} + c_in;
+            // 3 - (A OR NOT B) PLUS CIN
             4'b0010:
-                arith_f = (a | ~b) + c_in;
-            // MINUS 1 + Cin - Menos 1 (complemento de 2) ou 0
+                // arith_f = (a | ~b) + c_in;
+                arith_f = {1'b0, a | ~b} + c_in;
+            // 4 - MINUS 1 + CIN - Menos 1 (complemento de 2) ou 0
             4'b0011:
                 arith_f = 5'b11111 + c_in; // -1 + c_in
-            // A PLUS A AND NOT B PLUS CIN
+            // 5 - A PLUS A AND NOT B PLUS CIN
             4'b0100:
-                arith_f = a + (a & ~b) + c_in;
-            // A OR B PLUS A AND NOT B PLUS CIN
+                arith_f = a + {1'b0, a & ~b} + c_in;
+            // 6 - A OR B PLUS A AND NOT B PLUS CIN
             4'b0101:
-                arith_f = (a | b) + (a & ~b) + c_in;
-            // A - B - 1 + CIN
+                arith_f = {1'b0, a | b} + {1'b0, a & ~b} + c_in;
+            // 7 - A - B - 1 + CIN
             4'b0110:
                 arith_f = a - b - 1 + c_in;
-            // (A AND NOT B) - 1 + CIN
+            // 8 - (A AND NOT B) - 1 + CIN
             4'b0111:
-                arith_f = (a & ~b) - 1 - c_in;
-            // A + A AND B + CIN
+                arith_f = {1'b0, a & ~b} - 1 + c_in;
+            // 9 - A + A AND B + CIN
             4'b1000:
-                arith_f = a + (a & b) + c_in;
-            // A + B + CIN
+                arith_f = a + {1'b0, a & b} + c_in;
+            // 10 - A + B + CIN
             4'b1001:
                 arith_f = a + b + c_in;
-            // A OR NOT B PLUS A AND B PLUS CIN
+            // 11 - A OR NOT B PLUS A AND B PLUS CIN
             4'b1010:
-                arith_f = (a | ~b) + (a & b) + c_in;
-            // A AND B - 1 + CIN
+                arith_f = {1'b0, a | ~b} + {1'b0, a & b} + c_in;
+            // 12 - A AND B - 1 + CIN
             4'b1011:
-                arith_f = a & b - 1 - c_in;
-            // (c_in === 0) ? A + A* : A + A + 1
+                arith_f = {1'b0, a & b} - 1 + c_in;
+            // 13 - (c_in === 0) ? A + A* : A + A + 1
             // * - Cada bit é passado para a p´roxima posição mais significante 
             4'b1100:
                 //arith_f = {1'b0, a} + {1'b0, a} + c_in;
                 //arith_f = a + (a << 1) + c_in;
                 arith_f = a + a + c_in;
-            // A OR B PLUS A + CIN
+            // 14 - A OR B PLUS A + CIN
             4'b1101:
-                arith_f = (a | b) + a + c_in;
-            // A OR NOT B PLUS A + CIN
+                arith_f = {1'b0, a | b} + a + c_in;
+            // 15 - A OR NOT B PLUS A + CIN
             4'b1110:
-                arith_f = (a | ~b) + a + c_in;
-            // A - 1 + CIN
+                arith_f = {1'b0, a | ~b} + a + c_in;
+            // 16 - A - 1 + CIN
             4'b1111:
-                arith_f = a - 1 - c_in;
+                arith_f = a - 1 + c_in;
         endcase
 
         // === Seleção do resultado final ===
