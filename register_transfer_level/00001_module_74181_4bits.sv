@@ -111,7 +111,7 @@ module module_ula_74181 (
                 arith_f = (a | b) + (a & ~b) + c_in;
             // A - B - 1 + CIN
             4'b0110:
-                arith_f = a - b - 1 ;
+                arith_f = a - b - 1 + c_in;
             // (A AND NOT B) - 1 + CIN
             4'b0111:
                 arith_f = (a & ~b) - 1 - c_in;
