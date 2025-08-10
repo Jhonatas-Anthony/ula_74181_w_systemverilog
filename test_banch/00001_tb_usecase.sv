@@ -7,7 +7,7 @@ module tb_ula_74181_arit;
 
     // Instancia a ULA
     module_ula_74181 dut (
-                         .a(a), .b(b), .s(s),
+                         .t(1'b0), .a(a), .b(b), .s(s),
                          .m(m), .c_in(c_in),
                          .f(f), .a_eq_b(a_eq_b),
                          .c_out(c_out)

@@ -5,6 +5,8 @@
 
 // Módulo que implementa uma ULA (Unidade Lógica e Aritmética) de 4 bits com base no CI 74181
 module module_ula_74181 (
+        // Refere-se ao tipo, 0 para menos significativo e 1 para mais significativo
+        input  logic t = 0, 
         // A (4 bits)
         input  logic [3:0] a,
         // B (4 bits)
@@ -34,6 +36,8 @@ module module_ula_74181 (
     always_comb begin
         logic [3:0] logic_f;    // Resultado das operações lógicas
         logic [4:0] arith_f;    // Resultado das operações aritméticas (com carry)
+
+        logic [4:0] tmp;        // Para algumas operações específicas
 
         // === OPERAÇÕES LÓGICAS === //
         // Executadas quando m = 1 (modo lógico)
@@ -121,8 +125,12 @@ module module_ula_74181 (
             4'b0101:
                 arith_f = {1'b0, a | b} + {1'b0, a & ~b} + c_in;
             // 7 - A - B - 1 + CIN
-            4'b0110:
-                arith_f = a - b - 1 + c_in;
+            4'b0110: begin 
+                arith_f = a - b;
+                if (t === 1'b0) begin 
+                    arith_f = arith_f - 1 + c_in;
+                end
+            end
             // 8 - (A AND NOT B) - 1 + CIN
             4'b0111:
                 arith_f = {1'b0, a & ~b} - 1 + c_in;
@@ -136,8 +144,12 @@ module module_ula_74181 (
             4'b1010:
                 arith_f = {1'b0, a | ~b} + {1'b0, a & b} + c_in;
             // 12 - A AND B - 1 + CIN
-            4'b1011:
-                arith_f = {1'b0, a & b} - 1 + c_in;
+            4'b1011: begin 
+                arith_f = {1'b0, a & b};
+                if (t === 1'b0) begin 
+                    arith_f = arith_f - 1 + c_in;
+                end
+            end
             // 13 - (c_in === 0) ? A + A* : A + A + 1
             // * - Cada bit é passado para a p´roxima posição mais significante
             4'b1100:
@@ -151,8 +163,12 @@ module module_ula_74181 (
             4'b1110:
                 arith_f = {1'b0, a | ~b} + a + c_in;
             // 16 - A - 1 + CIN
-            4'b1111:
-                arith_f = a - 1 + c_in;
+            4'b1111: begin 
+                arith_f = a;
+                if (t === 1'b0) begin 
+                    arith_f = arith_f - 1 + c_in;
+                end
+            end
         endcase
 
         // === Seleção do resultado final ===

@@ -18,6 +18,7 @@ module ula_8bits (
 
     // ULA menos significativa (bits 3:0)
     module_ula_74181 ula_low (
+        .t(1'b0),
         .a(a[3:0]),
         .b(b[3:0]),
         .s(s),
@@ -30,8 +31,6 @@ module ula_8bits (
         .a_eq_b(a_eq_b_low)
     );
 
-    // Ajuste do c_in da parte alta
-    // Ajuste do c_in da parte alta
     always_comb begin
         c_in_high = c_out_low;
 
@@ -42,6 +41,7 @@ module ula_8bits (
 
     // ULA mais significativa (bits 7:4)
     module_ula_74181 ula_high (
+        .t(1'b1),
         .a(a[7:4]),
         .b(b[7:4]),
         .s(s),

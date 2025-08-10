@@ -107,7 +107,7 @@ module tb_ula_74181_arit;
 
         // 12º Caso - (A AND B) MINUS 1 + CIN
         $display("12 Caso - (A AND B) - 1 + Cin");
-        testa(8'b11000011, 8'b11000011, 4'b1011, 0, 0,      8'b11000011, 0);
+        testa(8'b11000011, 8'b11000011, 4'b1011, 0, 0,      8'b11000010, 0);
 
         // 13º Caso - A + A* + CIN
         // * - Cada bit é passado para a próxima posição mais significante
@@ -116,7 +116,7 @@ module tb_ula_74181_arit;
 
         // 14º Caso - (A OR B PLUS A + CIN
         $display("14 Caso - A OR B PLUS A + CIN");
-        testa(8'b01000010, 8'b01000010, 4'b1101, 0, 0,      8'b10000100, 1);
+        testa(8'b01000010, 8'b01000010, 4'b1101, 0, 0,      8'b10000100, 0);
 
         // 15º Caso - A OR NOT B PLUS A + CIN
         $display("15 Caso - A OR NOT B PLUS A + CIN");
