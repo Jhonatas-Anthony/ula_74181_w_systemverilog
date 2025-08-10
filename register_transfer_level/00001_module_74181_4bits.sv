@@ -15,17 +15,18 @@ module module_ula_74181 (
         input  logic       m,
         // Carry-in
         input  logic       c_in,
+        input  logic       b_in,
         // Resultador
         output logic [3:0] f,
         // Alto se A = B
         output logic       a_eq_b,
         // Carry-out
-        output logic       c_out
+        output logic       c_out,
+        output logic       b_out
     );
 
     // Sinais internos
     logic [3:0] logic_result, arith_result;
-    logic carry;
 
     // Registrador para armazenar o resultado completo (com carry extra)
     logic [4:0] result;
@@ -102,8 +103,17 @@ module module_ula_74181 (
                 // arith_f = (a | ~b) + c_in;
                 arith_f = {1'b0, a | ~b} + c_in;
             // 4 - MINUS 1 + CIN - Menos 1 (complemento de 2) ou 0
-            4'b0011:
-                arith_f = 5'b11111 + c_in; // -1 + c_in
+            4'b0011: begin
+                // Base da operação especial: -1 se não houver c_in, senão 0
+                if (c_in === 1)
+                    arith_f = 5'b00000;
+                else
+                    arith_f = 5'b11111;
+
+                // Se houve borrow in, decrementa
+                if (b_in === 1)
+                    arith_f = arith_f - 1;
+            end
             // 5 - A PLUS A AND NOT B PLUS CIN
             4'b0100:
                 arith_f = a + {1'b0, a & ~b} + c_in;
@@ -129,7 +139,7 @@ module module_ula_74181 (
             4'b1011:
                 arith_f = {1'b0, a & b} - 1 + c_in;
             // 13 - (c_in === 0) ? A + A* : A + A + 1
-            // * - Cada bit é passado para a p´roxima posição mais significante 
+            // * - Cada bit é passado para a p´roxima posição mais significante
             4'b1100:
                 //arith_f = {1'b0, a} + {1'b0, a} + c_in;
                 //arith_f = a + (a << 1) + c_in;
@@ -150,12 +160,12 @@ module module_ula_74181 (
             result = {1'b0, logic_f};     // Resultado lógico (sem carry)
         else
             result = arith_f;             // Resultado aritmético (com carry)
-
     end
 
     // === Atribuições finais às saídas ===
     assign f = result[3:0];           // Saída principal de 4 bits
     assign c_out = result[4];         // Carry-out do bit mais significativo
+    assign b_out = result[4];
     assign a_eq_b = (a == b);         // Verificação de igualdade entre A e B
 
 endmodule

@@ -1,6 +1,6 @@
 module tb_ula_74181_arit;
 
-    logic [7:0] a, b; 
+    logic [7:0] a, b;
     logic [3:0] s;
     logic m, c_in;
     logic [7:0] f;
@@ -16,7 +16,7 @@ module tb_ula_74181_arit;
 
     // Tarefa para teste
     task automatic testa(
-            input [7:0] ta, tb, 
+            input [7:0] ta, tb,
             input [3:0] ts,
             input tm, tc_in,
             input [7:0] f_esperado,
@@ -30,11 +30,11 @@ module tb_ula_74181_arit;
             c_in = tc_in;
             #1; // espera avaliação combinacional
             if (f !== f_esperado || c_out !== c_out_esperado) begin
-                $display("ERRO: m=%0b s=%04b a=%03d b=%03d c_in=%0b -> f=%03d (esperado=%03d) c_out=%0b (esperado=%03b)",
+                $display("ERRO: m=%0b s=%04b a=%03b b=%03b c_in=%0b -> f=%03b (esperado=%03d) c_out=%0b (esperado=%0b)",
                          m, s, a, b, c_in, f, f_esperado, c_out, c_out_esperado);
             end
             else begin
-                $display("OK: m=%0b s=%04b a=%03d b=%03d c_in=%0b -> f=%03d c_out=%0b",
+                $display("OK: m=%0b s=%04b a=%03b b=%03b c_in=%0b -> f=%03b c_out=%0b",
                          m, s, a, b, c_in, f, c_out);
             end
         end
@@ -70,8 +70,8 @@ module tb_ula_74181_arit;
 
         // 4º Caso - MINUS 1 + CIN
         $display("4 Caso - MINUS 1 + CIN");
-        testa(8'b00000000, 8'b00000000, 4'b0011, 0, 0,      8'b11111111, 0); // Sem Cin
-        testa(8'b00000000, 8'b00000000, 4'b0011, 0, 1,      8'b00000000, 1); // Com Cin
+        testa(8'b00000000, 8'b00000000, 4'b0011, 0, 0,      8'b11111111, 1); // Sem Cin
+        testa(8'b00000000, 8'b00000000, 4'b0011, 0, 1,      8'b00000000, 0); // Com Cin
 
         // 5º Caso - A PLUS A AND NOT B PLUS CIN
         $display("5 Caso - A PLUS A AND NOT B PLUS CIN");
@@ -90,7 +90,7 @@ module tb_ula_74181_arit;
         // 8º Caso - A AND (NOT B) MINUS 1 + CIN
         $display("8 Caso - A AND (NOT B) - 1 + Cin");
         testa(8'b00110011, 8'b00010001, 4'b0111, 0, 0,      8'b00010001, 0);
-        
+
         // 9º Caso - A PLUS (A AND B) PLUS CIN
         $display("9 Caso - A + (A AND B) + Cin");
         testa(8'b01000010, 8'b00000010, 4'b1000, 0, 0,      8'b01000100, 0);
